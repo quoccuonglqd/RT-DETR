@@ -63,6 +63,10 @@ class BaseConfig(object):
         self.sync_bn :bool = False 
         self.clip_max_norm : float = 0.
         self.find_unused_parameters :bool = None
+        self.finetune_mpo :bool = False
+        self.mpo_and_test :bool = False
+        self.prune :bool = False
+        self.prune_ratio: float = 0.
 
         self.seed :int = None
         self.print_freq :int = None 

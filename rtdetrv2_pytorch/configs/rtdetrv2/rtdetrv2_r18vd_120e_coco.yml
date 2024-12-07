@@ -7,8 +7,11 @@ __include__: [
 ]
 
 
-output_dir: ./output/rtdetrv2_r18vd_120e_coco
-
+output_dir: ./output/rtdetrv2_r18vd_120e_coco_4expert_mpo_nonregularization
+find_unused_parameters: True
+finetune_mpo: False
+mpo_and_test: False
+prune: True
 
 PResNet:
   depth: 18
@@ -21,13 +24,14 @@ HybridEncoder:
   in_channels: [128, 256, 512]
   hidden_dim: 256
   expansion: 0.5
+  num_experts: 4
 
 
 RTDETRTransformerv2:
   num_layers: 3
 
 
-epoches: 120 
+epoches: 50
 
 optimizer:
   type: AdamW

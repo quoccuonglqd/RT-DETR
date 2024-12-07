@@ -122,6 +122,19 @@ class DetSolver(BaseSolver):
         self.eval()
         
         module = self.ema.module if self.ema else self.model
+        
+        if self.cfg.mpo_and_test:
+            module.encoder.encoder[0].layers[0].from_pretrained(module.encoder.encoder[0].layers[0].moe)
+
+        if self.cfg.prune:
+            import torch.nn.utils.prune as prune
+            prune.l1_unstructured(module.encoder.encoder[0].layers[0].linear1, name="weight",  amount=self.cfg.prune_ratio)
+            prune.l1_unstructured(module.encoder.encoder[0].layers[0].linear2, name="weight",  amount=self.cfg.prune_ratio)
+            module.encoder.encoder[0].layers[0].sparse_weight_1 = module.encoder.encoder[0].layers[0].linear1.weight.to_sparse()
+            module.encoder.encoder[0].layers[0].bias_1 = module.encoder.encoder[0].layers[0].linear1.bias
+            module.encoder.encoder[0].layers[0].sparse_weight_2 = module.encoder.encoder[0].layers[0].linear2.weight.to_sparse()
+            module.encoder.encoder[0].layers[0].bias_2 = module.encoder.encoder[0].layers[0].linear2.bias
+        
         test_stats, coco_evaluator = evaluate(module, self.criterion, self.postprocessor,
                 self.val_dataloader, self.evaluator, self.device)
                 

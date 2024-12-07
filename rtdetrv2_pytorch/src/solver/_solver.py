@@ -39,6 +39,10 @@ class BaseSolver(object):
             print(f'tuning checkpoint from {self.cfg.tuning}')
             self.load_tuning_state(self.cfg.tuning)
 
+        if cfg.finetune_mpo:
+            print("Finetuning MPO")
+            self.model.encoder.encoder[0].layers[0].from_pretrained(self.model.encoder.encoder[0].layers[0].moe)
+
         self.model = dist_utils.warp_model(self.model.to(device), sync_bn=cfg.sync_bn, \
             find_unused_parameters=cfg.find_unused_parameters)
 
