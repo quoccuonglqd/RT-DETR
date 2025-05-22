@@ -1,3 +1,12 @@
+## Introduction
+
+This is the official implementation for our paper submitted to IEEE Latin America Transaction with the submission ID 9524
+
+# Important files
+- tools/train.py: the main entrypoint for training and evaluation
+- rtdetrv2_pytorch/configs/rtdetrv2/rtdetrv2_r18vd_120e_coco.yml: the config file contains the configurations for model, data, experiments
+- references/deploy/rtdetrv2_torch.py: contains the inference code, we can use it for calculating the inference speed
+- rtdetrv2_pytorch/src/zoo/rtdetr/hybrid_encoder.py: this file contains the model implementation, since our method is built upon RT-DETR and the changes mainly adopt on the hybrid encoder part, this file is the only one that need to be updated
 
 ## Quick start
 
@@ -85,13 +94,18 @@ python references/deploy/rtdetrv2_torch.py -r path/to/checkpoint -c rtdetrv2_pyt
 <!-- /home/cuongnq/coco2017/val2017/000000515350.jpg -->
 <!-- /home/cuongnq/RT_DETR/rtdetrv2_pytorch/output/rtdetrv2_r18vd_120e_coco_4expert/best.pth -->
 
-9. Train Moe + matrix decomposition:
+<!-- 9. Train Moe + matrix decomposition: -->
 <!-- ```shell
 CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 tools/train.py -t path/to/checkpoint -c path/to/config
 ``` -->
-```
+<!-- ```
 The guideline for training with matrix decomposition will be released soon
-```
+``` -->
+
+## Authors:
+Thanh Thien Nguyen - University of Information Technology, Vietnam National University Ho Chi Minh City
+Quoc Cuong Nguyen - University of Information Technology, Vietnam National University Ho Chi Minh City
+Duc Lung Vu - University of Information Technology, Vietnam National University Ho Chi Minh City
 
 ## Acknowledgments:
 This implentation is based mainly on the original implementation of [RT-DETR](https://github.com/lyuwenyu/RT-DETR). We would love to thank the author of RT-DETR for their awesome work
